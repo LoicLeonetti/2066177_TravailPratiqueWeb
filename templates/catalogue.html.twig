@@ -1,0 +1,47 @@
+{% extends('base.html.twig') %}
+
+{% block javascripts %}
+	<script src="{{asset('js/modaleProduit.js')}}"></script>
+{% endblock %}
+
+{% block body %}
+
+	<div class='row'>
+
+		<div class='col-3'>
+			<section>
+				<input placeholder="texte recherché" id="inputRecherche" val=""></input>
+			<a class="btn btn-info" href="{{path('filtre_recherche',{recherche:"ProduitsTest"})}}">Rechercher</a>
+		</section>
+
+		<section class="filtreCategorie">
+			<p>Categories:</p>
+			{% for c in categories %}
+				<a class="btn btn-info" href="{{path('filtre_categorie',{id:c.id})}}">{{c.description}}</a>
+			{% endfor %}
+		</section>
+	</div>
+
+	<section class='catalogue col-9 row'>
+		{% for p in produits %}
+
+			<div class='produit row col-3'>
+				<section>
+					{{p.nom}}
+				</section>
+
+				<section class='col-4'>
+					<a class="boutonModal" href="{{path('produit_details',{id:p.id})}}">modale</a>
+					<img class="produitImage" src="{{asset("images/produits/ImageManquante.png")}}" alt="TODO">
+					<img class="panier col-4" src="{{asset("images/panier.png")}}" alt="TODO">
+				</section>
+
+
+			</div>
+		{% endfor %}
+	</section>
+
+
+	<section id="modaleProduit" title="Details du produits"></section>
+
+</div>{% endblock %}

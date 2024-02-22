@@ -1,0 +1,46 @@
+.entete{
+    background-color: black;
+    color :rgb(9, 255,0)
+}
+
+.pied{
+    background-color: black;
+    color :rgb(9, 255,0)
+}
+
+.bandeau
+{
+    background-color: grey;
+    text-align: right;
+}
+
+.bandeau button
+{
+    margin: 10px;
+}
+
+.catalogue
+{
+    background-color: aliceblue;
+}
+
+.produit
+{
+    border: solid;
+    background-color: white;
+    padding: 10px;
+    margin: 10px;
+
+}
+
+.produitImage
+{
+    height: 200px;
+    width: 200px;
+}
+
+.panier
+{
+    height: 40px;
+    width: 40px;
+}
