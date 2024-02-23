@@ -49,13 +49,14 @@ class catalogueController extends AbstractController
         return $this->render('catalogue.html.twig',['produits' => $produits,'categories' => $categories]);
     }
 
-    #[Route('produit_details', name: 'produit_details')]
+    #[Route('/produit_details/{id}', name: 'produit_details')]
     public function produit_details(ManagerRegistry $doctrine,$id): Response
     {
 
         $produit = $doctrine->getManager()->getRepository(Produit::class)->find($id);
+        $categorie = $doctrine -> getManager()->getRepository(Categorie::class)->find($produit->getIdCategorie());
 
-        return $this->render("base.html.twig",["produit"=>$produit]);
+        return $this->render("detailsProduit.html.twig",["produit"=>$produit,"categorie"=>$categorie]);
     }
 }
 

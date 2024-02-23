@@ -29,9 +29,11 @@
 				<section>
 					{{p.nom}}
 				</section>
+				
+				<section class='col-4'> 
 
-				<section class='col-4'>
 					<a class="boutonModal" href="{{path('produit_details',{id:p.id})}}">modale</a>
+		
 					<img class="produitImage" src="{{asset("images/produits/ImageManquante.png")}}" alt="TODO">
 					<img class="panier col-4" src="{{asset("images/panier.png")}}" alt="TODO">
 				</section>
@@ -42,6 +44,6 @@
 	</section>
 
 
-	<section id="modaleProduit" title="Details du produits"></section>
+	<section id="modaleProduit" title="Description du produits"></section>
 
 </div>{% endblock %}
