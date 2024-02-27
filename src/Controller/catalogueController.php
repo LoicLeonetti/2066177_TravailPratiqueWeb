@@ -42,7 +42,7 @@ class catalogueController extends AbstractController
 
         //TODO
         
-        $produits = $doctrine -> getManager() ->getRepository(Produit::class)->findBy(array('Nom'=> $recherche));
+        $produits = $doctrine -> getManager() ->getRepository(Produit::class)->findBy(array('Nom'=> $recherche,"Description"=>$recherche));
 
         $categories = $doctrine -> getManager()->getRepository(Categorie::class)->findAll();
 
@@ -57,6 +57,13 @@ class catalogueController extends AbstractController
         $categorie = $doctrine -> getManager()->getRepository(Categorie::class)->find($produit->getIdCategorie());
 
         return $this->render("detailsProduit.html.twig",["produit"=>$produit,"categorie"=>$categorie]);
+    }
+
+    #[Route('/contact', name: 'contact')]
+    public function contact(): Response
+    {
+
+        return $this->render("contact.html.twig");
     }
 }
 

@@ -2,22 +2,22 @@
 
 
     <section class="col-6">
-        
+        <img class="produitImage" src="images/produits/{{produit.image}}.png" alt="{{produit.nom}}">
     </section>
 
 	<section class="col-6">
 
 		<h1>{{produit.nom}}</h1>
 
-		<h1>{{categorie.description}}</h1>
+		<h2>{{categorie.description}}</h2>
 
-		<h1>{{produit.description}}</h1>
+		<p>{{produit.description}}</p>
 
 		<hr>
 
-		<h1>{{produit.prix}}</h1>
+		<h3>Prix: {{produit.prix}}$</h3>
 
-		<h1>{{produit.Qttestock}}</h1>
+		<p>Quantité en inventaire: {{produit.Qttestock}}</p>
 
 	</section>
 
