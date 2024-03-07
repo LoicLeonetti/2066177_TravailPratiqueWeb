@@ -1,0 +1,67 @@
+
+
+{% extends('base.html.twig') %}
+
+
+
+{% block javascripts %}
+	<script src="{{asset('js/modaleProduit.js')}}"></script>
+{% endblock %}
+
+{% block body %}
+	
+<!-- Nom: Loic Leonetti -->
+<!-- Date: 2024-02-24   -->
+
+	<div class='row'>
+
+		<div class='col-3'>
+			<section>
+				<form action="{{path('filtre')}}">
+					Recherche:
+					<input name="texteFiltre">
+					<br>
+					Categorie:
+					<select name="categorieFiltre">
+						<option value="Toutes">Toutes</option>
+						{% for c in categories %}
+							<option value="{{c.Id}}">{{c.Description}}</option>
+						{% endfor %}
+					</select>
+					<br>
+					<button type="submit" class="btn btn-info">Filtrer</button>
+				</form>
+			</section>
+		</div>
+
+		<section class='catalogue col-9 row'>
+			{% for p in produits %}
+
+				
+
+				<div class='produit row col-3'>
+
+					<section class="col-12">
+						<h1>{{p.nom}}</h1>
+					</section>
+
+					<section class='col-12'>
+
+						<a class="boutonModal" href="{{path('produit_details',{id:p.id})}}">
+						
+							<img class="img-fluid img-thumbnail" src="images/produits/{{p.image}}.png" alt="{{p.image}}">
+						</a>
+
+						<img class="panier" src="{{asset("images/panier.png")}}" alt="TODO">
+					</section>
+
+
+				</div>
+			{% endfor %}
+		</section>
+
+
+		<section id="modaleProduit" title="Description du produits"></section>
+
+	</div>
+{% endblock %}
