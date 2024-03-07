@@ -41,17 +41,18 @@
 
 				<div class='produit row col-3'>
 
-					<section>
-						{{p.nom}}
+					<section class="col-12">
+						<h1>{{p.nom}}</h1>
 					</section>
 
-					<section class='col-4'>
+					<section class='col-12'>
 
 						<a class="boutonModal" href="{{path('produit_details',{id:p.id})}}">
-							<img class="produitImage" src="images/produits/{{p.image}}.png" alt="TODO">
+						
+							<img class="img-fluid img-thumbnail" src="images/produits/{{p.image}}.png" alt="{{p.image}}">
 						</a>
 
-						<img class="panier col-4" src="{{asset("images/panier.png")}}" alt="TODO">
+						<img class="panier" src="{{asset("images/panier.png")}}" alt="TODO">
 					</section>
 
 
