@@ -26,8 +26,6 @@ class panierController extends AbstractController
     {
         $panier = $request->getSession()->get('panier');
 
-        $panier->produits[] = new ProduitPanier();
-
         dd($panier);
 
         return $this->render('panier.html.twig',['panier'=>$panier]);

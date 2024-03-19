@@ -26,6 +26,7 @@ class catalogueController extends AbstractController
     public function accueil(ManagerRegistry $doctrine,Request $request): Response
     {
 
+
         // S'il n'y a pas de panier creer un
         $panier = $request->getSession()->get('panier');
         if ($panier == null) 

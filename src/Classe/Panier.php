@@ -1,14 +1,43 @@
 <?php
 
+use App\Entity\Produit;
+
 class Panier
 {
     // Tableau de ProduitPanier
     public $produits;
+
+    // Ajouter un produit au panier
+    public function ajouterProduit(ProduitPanier $produitPanier)
+    {  
+        if ($this->produitExiste($produitPanier) != null) {
+            //Le produits est déjà dans le panier
+            $produitDansPanier = $this->produitExiste($produitPanier);
+            $produitDansPanier->setQuantiteCommandee($produitDansPanier->getQuantiteCommandee() + 1);
+        }else{
+            //Le produit n'est pas dans le panier
+            $produitPanier->setQuantiteCommandee(1);
+            $this->produits[] = $produitPanier;
+        }
+
+    }
     
     // Vérification de la présence d’un produit dans son tableau
-    public function test()
+    private function produitExiste(ProduitPanier $produit)
     {
-        return 1;
+        // Si le tableau de produits est vide, cela veut dire que le produit n'est pas deja dans le panier
+        if ($this->produits == null) {
+            return null;
+        }
+
+        foreach($this->produits as $p)
+        {
+            if($p->getNom() == $produit->getNom())
+            {
+                return $p;
+            }
+        }
+        return null;
     }
 
     // Calcul du nombre de produits distincts dans le panier
