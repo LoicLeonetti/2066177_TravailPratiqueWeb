@@ -1,0 +1,103 @@
+{% extends('base.html.twig') %}
+
+{% block body %}
+
+
+	{% if panier.produits == null %}
+        
+        <h1>Votre panier est vide</h1>
+        <a href="{{path('catalogue')}}"><button class="btn btn-info">Retour au catalogue</button></a>
+
+		{% else %}
+			<h1>Votre Panier:</h1>
+
+			<div class="container">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Nom</th>
+							<th>Prix</th>
+							<th>
+								<div class="row">
+									<div class="col-3">Quantité</div>
+									<div class="col-3">
+										<button class="btn btn-info">Mise a jour</button>
+									</div>
+								</div>
+							</th>
+							<th>Total</th>
+							<th>Supprimer</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Remplir avec session -->
+						<tr>
+							<td>Product 1</td>
+							<td>$10</td>
+							<td>2</td>
+							<td>$20</td>
+							<td>
+								<a href="">supprimer</a>
+							</td>
+						</tr>
+						<tr>
+							<td>Product 2</td>
+							<td>$15</td>
+							<td>1</td>
+							<td>$15</td>
+							<td>
+								<a href="">supprimer</a>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="2"></td>
+							<td>Total achat</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="2"></td>
+							<td>Frais de livraison
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="2"></td>
+							<td>Total avant taxes</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="2"></td>
+							<td>TPS (0,05)</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="2"></td>
+							<td>TVQ (0,09975)</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th colspan="2"></th>
+							<th>Total</th>
+							<th></th>
+							<td>
+								<!-- ne fait rien pour ce tp -->
+								<a href="#" class="btn btn-danger">Payer $</a>
+							</td>
+						</tr>
+
+					</tfoot>
+				</table>
+
+			</div>
+
+	{% endif %}
+
+
+{% endblock %}

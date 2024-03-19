@@ -14,14 +14,25 @@ use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Produit;
 
+use Panier;
+use ProduitPanier;
+
 class catalogueController extends AbstractController
 {
     #--------------------------------------------------------------------------------#
     #--------------------------------------------------------------------------------#
     #--------------------------------------------------------------------------------#
     #[Route('/', name: 'catalogue')]
-    public function accueil(ManagerRegistry $doctrine): Response
+    public function accueil(ManagerRegistry $doctrine,Request $request): Response
     {
+
+        // S'il n'y a pas de panier creer un
+        $panier = $request->getSession()->get('panier');
+        if ($panier == null) 
+        {
+            $request->getSession()->set('panier',new Panier());
+        }
+
         $produits = $doctrine->getManager()->getRepository(Produit::class)->findAll();
 
         $categories = $doctrine->getManager()->getRepository(Categorie::class)->findAll();
