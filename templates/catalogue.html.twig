@@ -52,7 +52,7 @@
 							<img class="img-fluid img-thumbnail" src="images/produits/{{p.image}}.png" alt="{{p.image}}">
 						</a>
 
-						<img class="panier" src="{{asset("images/panier.png")}}" alt="TODO">
+						<a href="{{path('ajouterProduit',{id:p.id})}}"><img class="panier" src="{{asset("images/panier.png")}}" alt="TODO"></a>
 					</section>
 
 

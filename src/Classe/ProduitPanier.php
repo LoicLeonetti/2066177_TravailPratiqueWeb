@@ -1,11 +1,17 @@
 <?php
 
+namespace App\Classe;
+
 use App\Entity\Produit;
+
+# Nom: Loic Leonetti #
+# Date: 2024-03-20   #
 
 class ProduitPanier extends Produit
 {
     public function __construct(Produit $var = null) {
         if ($var != null) {
+            
             $this->setNom($var->getNom());
             $this->setDescription($var->getDescription());
             $this->setPrix($var->getPrix());

@@ -1,7 +1,11 @@
 {% extends('base.html.twig') %}
 
+
+
 {% block body %}
 
+<!-- Nom: Loic Leonetti -->
+<!-- Date: 2024-03-20   -->
 
 	{% if panier.produits == null %}
         
@@ -31,24 +35,20 @@
 					</thead>
 					<tbody>
 						<!-- Remplir avec session -->
+
+						{% for p in panier.produits %}
+
 						<tr>
-							<td>Product 1</td>
-							<td>$10</td>
-							<td>2</td>
-							<td>$20</td>
+							<td>{{p.nom}}</td>
+							<td>${{p.prix}}</td>
+							<td>{{p.quantiteCommandee}}</td>
+							<td>${{p.prix * p.quantiteCommandee}}</td>
 							<td>
-								<a href="">supprimer</a>
+								<a href="{{path('supprimerProduit',{idProduit:p.nom})}}">supprimer</a>
 							</td>
 						</tr>
-						<tr>
-							<td>Product 2</td>
-							<td>$15</td>
-							<td>1</td>
-							<td>$15</td>
-							<td>
-								<a href="">supprimer</a>
-							</td>
-						</tr>
+							
+						{% endfor %}
 					</tbody>
 					<tfoot>
 						<tr>
