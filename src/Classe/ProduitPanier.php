@@ -49,5 +49,5 @@ class ProduitPanier extends Produit
 
 }
 
-?> 
+
 

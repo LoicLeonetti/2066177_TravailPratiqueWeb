@@ -46,7 +46,6 @@ class panierController extends AbstractController
 
         $soumettre = $request->query->get('soumettre');
 
-        //dd(is_numeric($panier->getValeurPanier()));
 
         if(isset($soumettre)){
 
@@ -70,8 +69,6 @@ class panierController extends AbstractController
 
         }
    
-        
-
         return $this->redirectToRoute('panier');
     }
     #--------------------------------------------------------------------------------#

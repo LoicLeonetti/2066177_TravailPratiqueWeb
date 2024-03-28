@@ -162,6 +162,6 @@ class Panier{
     }
 
 }
-?>
+
 
 
