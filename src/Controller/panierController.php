@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use App\Classe\Panier;
 use App\Classe\ProduitPanier;
+use App\Form\QuantiteProduitType;
 
 
 
@@ -30,13 +31,48 @@ class panierController extends AbstractController
     public function panier(Request $request)
     {
         $panier = $request->getSession()->get('panier');
-
-        if ($panier == null) {
-            $panier = new Panier();
-            $request->getSession()->set('panier',$panier);
-        }
-
+    
         return $this->render('panier.html.twig',['panier'=>$panier]);
+    }
+
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
+    #[Route('/updateQuantite', name: 'updateQuantite')]
+    public function updateQuantite(Request $request)
+    {
+        $panier = $request->getSession()->get('panier');
+        
+
+        $soumettre = $request->query->get('soumettre');
+
+        //dd(is_numeric($panier->getValeurPanier()));
+
+        if(isset($soumettre)){
+
+            foreach($panier->produits as $p){
+
+                
+                $quantite = $request->query->get($p->getProduitId());
+
+                $quantite = intval($quantite);
+
+                $p->setQuantiteCommandee($quantite);
+
+                if ($p->getQuantiteCommandee() == 0){
+                    
+                    $panier->supprimerProduit($p);
+                }
+
+            }
+
+            $request->getSession()->set('panier',$panier);
+
+        }
+   
+        
+
+        return $this->redirectToRoute('panier');
     }
     #--------------------------------------------------------------------------------#
     #--------------------------------------------------------------------------------#
@@ -63,21 +99,22 @@ class panierController extends AbstractController
     #--------------------------------------------------------------------------------#
     #--------------------------------------------------------------------------------#
     #--------------------------------------------------------------------------------#
-    #[Route('/supprimerProduit/{idProduit}', name: 'supprimerProduit')]
-    public function supprimerProduit(ManagerRegistry $doctrine,Request $request,$idProduit)
+    #[Route('/supprimerProduit/{nomProduit}', name: 'supprimerProduit')]
+    public function supprimerProduit(ManagerRegistry $doctrine,Request $request,$nomProduit)
     {
         // When clicked on the delete button, the product is removed from the cart
         $panier = $request->getSession()->get('panier');
 
-        if ($panier) { 
+        
 
-            // Id is always null because ProduitPanier does not store the id
-            $produitPanier = new ProduitPanier($doctrine->getManager()->getRepository(Produit::class)->find($idProduit));
+        if ($panier) { 
+            $produitPanier = new ProduitPanier($doctrine->getManager()->getRepository(Produit::class)->findOneBy(["Nom" => $nomProduit]));
+
+
             $panier->supprimerProduit($produitPanier); 
         }
         
-        //dd($panier);
-        $panier = $request->getSession()->get('panier');
+        $panier = $request->getSession()->set('panier',$panier);
 
         return $this->redirectToRoute('panier');
     }

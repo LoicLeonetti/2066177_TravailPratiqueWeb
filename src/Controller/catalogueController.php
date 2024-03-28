@@ -27,13 +27,20 @@ class catalogueController extends AbstractController
     #--------------------------------------------------------------------------------#
     #[Route('/', name: 'catalogue')]
     public function accueil(ManagerRegistry $doctrine, Request $request): Response
-    {
+    {   
+        $panier = $request->getSession()->get('panier');
+
+        if ($panier == null) {
+            $panier = new Panier();
+            $request->getSession()->set('panier',$panier);
+        }
+
 
         $produits = $doctrine->getManager()->getRepository(Produit::class)->findAll();
 
         $categories = $doctrine->getManager()->getRepository(Categorie::class)->findAll();
 
-        return $this->render('catalogue.html.twig', ['produits' => $produits, 'categories' => $categories]);
+        return $this->render('catalogue.html.twig', ['produits' => $produits, 'categories' => $categories,'panier'=>$panier]);
     }
 
 
@@ -43,6 +50,13 @@ class catalogueController extends AbstractController
     #[Route('/filtre', name: 'filtre')]
     public function filtre(ManagerRegistry $doctrine, Request $request): Response
     {
+        $panier = $request->getSession()->get('panier');
+
+        if ($panier == null) {
+            $panier = new Panier();
+            $request->getSession()->set('panier',$panier);
+        }
+
 
         $produits = $doctrine->getManager()->getRepository(Produit::class)->findAll();
         $categories = $doctrine->getManager()->getRepository(Categorie::class)->findAll();
@@ -62,7 +76,7 @@ class catalogueController extends AbstractController
             $produits = $this->filtrerCategorie($produits, $categorieId);
         }
 
-        return $this->render('catalogue.html.twig', ['produits' => $produits, 'categories' => $categories]);
+        return $this->render('catalogue.html.twig', ['produits' => $produits, 'categories' => $categories,'panier'=>$panier]);
     }
 
     #--------------------------------------------------------------------------------#
@@ -118,9 +132,16 @@ class catalogueController extends AbstractController
     #--------------------------------------------------------------------------------#
     #--------------------------------------------------------------------------------#
     #[Route('/contact', name: 'contact')]
-    public function contact(): Response
+    public function contact(Request $request): Response
     {
 
-        return $this->render("contact.html.twig");
+        $panier = $request->getSession()->get('panier');
+
+        if ($panier == null) {
+            $panier = new Panier();
+            $request->getSession()->set('panier',$panier);
+        }
+
+        return $this->render("contact.html.twig",[ 'panier'=>$panier]);
     }
 }

@@ -7,13 +7,12 @@ use App\Classe\ProduitPanier;
 
 class Panier{
     // Tableau de ProduitPanier
-    public $produits;
+    public $produits = [];
 
-
-    public function test()
-    {
-        echo "test";
-    }
+    const FRAIS_LIVRAISON = 15;
+    const TPS = 0.05;
+    const TVQ = 0.09975;
+    const DECIMAL = 2;
 
     // Ajouter un produit au panier
     //--------------------------------------------------------------------------------
@@ -60,7 +59,7 @@ class Panier{
     //--------------------------------------------------------------------------------
     public function getNombreProduits()
     {
-        return $this->produits->count;
+        return count($this->produits);
     }
 
     // Calcul du nombre d’items dans le panier
@@ -69,11 +68,16 @@ class Panier{
     //--------------------------------------------------------------------------------
     public function getNombreItem()
     {
+
+        if ($this->produits == null) {
+            return 0;
+        }
+
         $totale = 0;
 
         foreach($this->produits as $p)
         {
-            $totale += $p->quantiteCommandee;
+            $totale += $p->getQuantiteCommandee();
         }
 
         return $totale;
@@ -86,13 +90,18 @@ class Panier{
     public function supprimerProduit(ProduitPanier $produit)
     {
 
-        dd($produit);
+        foreach($this->produits as $key => $p)
+        {
+            if($p->getNom() == $produit->getNom())
+            {
+                unset($this->produits[$key]);
+            }
+        }
+    }
 
-        $index = array_search($produit, $this->produits); 
-
-        
-
-        unset($this->produits[$index]);
+    public function getFraisLivraison()
+    {
+        return number_format(Panier::FRAIS_LIVRAISON,Panier::DECIMAL);
     }
 
     // Calcul de la valeur totale du panier 
@@ -101,16 +110,56 @@ class Panier{
     //--------------------------------------------------------------------------------
     public function getValeurPanier()
     {
-        $totale = 0;
+        $total = 0;
+
+        
 
         foreach($this->produits as $p)
         {
-            $totale += $p->getQuantiteCommandee * $p->getPrix();
+            $total += $p->getQuantiteCommandee() * $p->getPrix();
         }
 
-        return $totale;
+        // dd(is_numeric($total));
+
+        return $total;
     }
 
+    // Calcul du Total avant taxes
+    //--------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------
+    public function getTotalAvantTaxes()
+    {
+
+        return $this->getValeurPanier() + Panier::FRAIS_LIVRAISON;
+    }
+
+    // Calcul de la TPS
+    //--------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------
+    public function getTPS()
+    {
+        return $this->getTotalAvantTaxes() * Panier::TPS;
+    }
+
+    // Calcul de la TVQ
+    //--------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------
+    public function getTVQ()
+    {
+        return $this->getTotalAvantTaxes() * Panier::TVQ;
+    }
+
+    // Calcul du Total de l'achat
+    //--------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------
+    public function getTotalAchat()
+    {
+        return $this->getTotalAvantTaxes() + $this->getTPS() + $this->getTVQ();
+    }
 
 }
 ?>

@@ -17,10 +17,12 @@ class ProduitPanier extends Produit
             $this->setPrix($var->getPrix());
             $this->setImage($var->getImage());
             $this->setIdCategorie($var->getIdCategorie());
+            $this->produitId = $var->getId();
         }
     }
 
     private int $quantiteCommandee = 0;
+    private int $produitId = 0;
    
     public function getQuantiteCommandee() : ?int
     {
@@ -31,6 +33,20 @@ class ProduitPanier extends Produit
     {
         $this->quantiteCommandee = $quantite;
     }
+
+    public function getProduitId() : ?int
+    {
+        return $this->produitId;
+    }
+
+    public function setProduitId(int $id)
+    {
+        $this->produitId = $id;
+    }
+
+
+
+
 }
 
 ?> 

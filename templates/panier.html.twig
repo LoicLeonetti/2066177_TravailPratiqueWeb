@@ -1,21 +1,19 @@
 {% extends('base.html.twig') %}
 
 
-
 {% block body %}
 
-<!-- Nom: Loic Leonetti -->
-<!-- Date: 2024-03-20   -->
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-03-20   -->
 
-	{% if panier.produits == null %}
-        
-        <h1>Votre panier est vide</h1>
-        <a href="{{path('catalogue')}}"><button class="btn btn-info">Retour au catalogue</button></a>
+		{% if panier.produits == null %}<h1>Votre panier est vide
+		</h1>
 
-		{% else %}
-			<h1>Votre Panier:</h1>
+	{% else %}
+		<h1>Votre Panier:</h1>
 
-			<div class="container">
+		<div class="container">
+			<form action = "{{path('updateQuantite')}}">
 				<table class="table table-bordered">
 					<thead>
 						<tr>
@@ -25,7 +23,7 @@
 								<div class="row">
 									<div class="col-3">Quantité</div>
 									<div class="col-3">
-										<button class="btn btn-info">Mise a jour</button>
+										<button class="btn btn-success" name="soumettre">Mise a jour</button>
 									</div>
 								</div>
 							</th>
@@ -38,66 +36,65 @@
 
 						{% for p in panier.produits %}
 
-						<tr>
-							<td>{{p.nom}}</td>
-							<td>${{p.prix}}</td>
-							<td>{{p.quantiteCommandee}}</td>
-							<td>${{p.prix * p.quantiteCommandee}}</td>
-							<td>
-								<a href="{{path('supprimerProduit',{idProduit:p.nom})}}">supprimer</a>
-							</td>
-						</tr>
-							
+							<tr>
+								<td>{{p.nom}}</td>
+								<td>${{p.prix}}</td>
+								<td><input type="number" name={{p.produitId}} value={{p.getQuantiteCommandee()}} min="0" max="20"></td>
+								<td>${{p.prix * p.quantiteCommandee}}</td>
+								<td>
+									<a href="{{path('supprimerProduit',{nomProduit:p.nom})}}">supprimer</a>
+								</td>
+							</tr>
+
 						{% endfor %}
 					</tbody>
 					<tfoot>
 						<tr>
 							<td colspan="2"></td>
 							<td>Total achat</td>
-							<td></td>
+							<td>${{panier.getValeurPanier()}}</td>
 							<td></td>
 						</tr>
 						<tr>
 							<td colspan="2"></td>
 							<td>Frais de livraison
 							</td>
-							<td></td>
+							<td>${{panier.getFraisLivraison}}</td>
 							<td></td>
 						</tr>
 						<tr>
 							<td colspan="2"></td>
 							<td>Total avant taxes</td>
-							<td></td>
-							<td></td>
+							<td>${{panier.getTotalAvantTaxes()}}</td>
+
 						</tr>
 						<tr>
 							<td colspan="2"></td>
 							<td>TPS (0,05)</td>
-							<td></td>
+							<td>${{panier.getTPS()}}</td>
 							<td></td>
 						</tr>
 						<tr>
 							<td colspan="2"></td>
 							<td>TVQ (0,09975)</td>
-							<td></td>
+							<td>${{panier.getTVQ()}}</td>
 							<td></td>
 						</tr>
 						<tr>
 							<th colspan="2"></th>
 							<th>Total</th>
-							<th></th>
+							<th>{{panier.getTotalAchat()}}</th>
 							<td>
-								<!-- ne fait rien pour ce tp -->
 								<a href="#" class="btn btn-danger">Payer $</a>
 							</td>
 						</tr>
 
 					</tfoot>
 				</table>
+			</form>
 
-			</div>
+		</div>
 
 	{% endif %}
-
 
 {% endblock %}
