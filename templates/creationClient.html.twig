@@ -1,0 +1,74 @@
+{% extends('base.html.twig') %}
+
+
+{% block javascripts %}{% endblock %}
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-04-11   -->
+
+		<div class='row'> {{form_start(formClient)}}
+		<div>
+			{{ form_label(formClient.nom, "Utilisateur") }}
+			{{ form_widget(formClient.nom) }}
+			{{ form_errors(formClient.nom) }}
+		</div>
+		<div>
+			
+			{{ form_label(formClient.prenom, "Prénom") }}
+			{{ form_widget(formClient.prenom) }}
+			{{ form_errors(formClient.prenom) }}
+		</div>
+		<div>
+			{{ form_label(formClient.nomFamille, "Nom de famille") }}
+			{{ form_widget(formClient.nomFamille) }}
+			{{ form_errors(formClient.nomFamille) }}
+		</div>
+		<div>
+			{{ form_label(formClient.genre, "Genre") }}
+			{{ form_widget(formClient.genre) }}
+			{{ form_errors(formClient.genre) }}
+		</div>
+		<div>
+			{{ form_label(formClient.adresse, "Adresse") }}
+			{{ form_widget(formClient.adresse) }}
+			{{ form_errors(formClient.adresse) }}
+		</div>
+		<div>
+			{{ form_label(formClient.ville, "Ville") }}
+			{{ form_widget(formClient.ville) }}
+			{{ form_errors(formClient.ville) }}
+		</div>
+		<div>
+			{{ form_label(formClient.province, "Province") }}
+			{{ form_widget(formClient.province) }}
+			{{ form_errors(formClient.province) }}
+		</div>
+		<div>
+			{{ form_label(formClient.codePostal, "Code Postal") }}
+			{{ form_widget(formClient.codePostal) }}
+			{{ form_errors(formClient.codePostal) }}
+		</div>
+		<div>
+			{{ form_label(formClient.adresseCourriel, "Adresse Courriel") }}
+			{{ form_widget(formClient.adresseCourriel) }}
+			{{ form_errors(formClient.adresseCourriel) }}
+		</div>
+        <!-- TODO: Ajouter un champ pour le mot de passe
+
+        -->
+        <div>
+			{{ form_label(formClient.motDePasse, "Mot de passe") }}
+			{{ form_widget(formClient.motDePasse) }}
+			{{ form_errors(formClient.motDePasse) }}
+		</div>
+        <div>
+			{{ form_widget(formClient.creer) }}
+		</div>
+        
+		{{form_end(formClient,{'render_rest': false})}}
+	</div>
+
+
+{% endblock %}
