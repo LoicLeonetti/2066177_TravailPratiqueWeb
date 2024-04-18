@@ -1,0 +1,35 @@
+{% extends('base.html.twig') %}
+
+
+{% block javascripts %}
+	<script src="{{asset('js/modaleProduit.js')}}"></script>
+{% endblock %}
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-04-17   -->
+	<div>
+	{{ include('commun/ZoneFlash.html.twig') }}
+	</div>
+	<div class='container row '> {{form_start(formConnexion)}}
+		<div>
+			{{ form_label(formConnexion.nom, "Utilisateur") }}
+			{{ form_widget(formConnexion.nom, {attr:{'class':'form-control courtTexte'} }) }}
+			{{ form_errors(formConnexion.nom) }}
+		</div>
+
+		<div>
+			{{ form_label(formConnexion.mdp, "Mot de passe") }}
+			{{ form_widget(formConnexion.mdp, {attr:{'class':'form-control courtTexte'} }) }}
+			{{ form_errors(formConnexion.mdp) }}
+		</div>
+
+		<div>
+			{{ form_widget(formConnexion.connexion, {'attr': {'class':'btn btn-primary my-2'} } ) }}
+		</div>
+
+		{{form_end(formConnexion)}}
+
+	</div>
+{% endblock %}

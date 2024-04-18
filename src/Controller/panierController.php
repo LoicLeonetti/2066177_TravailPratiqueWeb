@@ -31,8 +31,9 @@ class panierController extends AbstractController
     public function panier(Request $request)
     {
         $panier = $request->getSession()->get('panier');
+        $clientConnecte = $request->getSession()->get('clientConnecte');
     
-        return $this->render('panier.html.twig',['panier'=>$panier]);
+        return $this->render('panier.html.twig',['panier'=>$panier,'clientConnecte'=>$clientConnecte]);
     }
 
     #--------------------------------------------------------------------------------#

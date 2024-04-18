@@ -29,10 +29,15 @@ class catalogueController extends AbstractController
     public function accueil(ManagerRegistry $doctrine, Request $request): Response
     {   
         $panier = $request->getSession()->get('panier');
+        $clientConnecte = $request->getSession()->get('clientConnecte');
 
         if ($panier == null) {
             $panier = new Panier();
             $request->getSession()->set('panier',$panier);
+        }
+
+        if ($clientConnecte != null) {
+            $this->addFlash('succes', "Bienvenu " . $clientConnecte->getNom());
         }
 
 
@@ -40,7 +45,7 @@ class catalogueController extends AbstractController
 
         $categories = $doctrine->getManager()->getRepository(Categorie::class)->findAll();
 
-        return $this->render('catalogue.html.twig', ['produits' => $produits, 'categories' => $categories,'panier'=>$panier]);
+        return $this->render('catalogue.html.twig', ['produits' => $produits, 'categories' => $categories,'panier'=>$panier,'clientConnecte'=>$clientConnecte]);
     }
 
 

@@ -1,0 +1,36 @@
+{% extends('base.html.twig') %}
+
+
+{% block javascripts %}
+	<script src="{{asset('js/modaleProduit.js')}}"></script>
+{% endblock %}
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-04-17   -->
+	<div>
+	{{ include('commun/ZoneFlash.html.twig') }}
+	</div>
+	<div class='container row '>
+
+        <h1>Voici les données que nous allons enregistrer:</h1>
+
+        <div>Nom d'utilisateur: {{client.nom}}</div>
+        <div>Prénom: {{client.prenom}}</div>
+        <div>Nom de famille: {{client.nomFamille}}</div>
+        <div>Genre: {{client.genre}}</div>
+        <div>Adresse: {{client.adresse}}</div>
+        <div>Ville: {{client.ville}}</div>
+        <div>Province: {{client.province}}</div>
+        <div>Code Postal: {{client.codePostal}}</div>
+        <div>Adresse Courriel: {{client.adresseCourriel}}</div>
+
+       
+            <a href="{{path('confirmerCreation')}}" class="col-1" ><button class="btn btn-secondary">Confirmer</button></a>
+            <a href="{{path('annulerCreation')}}" class="col-1"><button class="btn btn-secondary">Annuler</button></a>
+        
+        
+
+	</div>
+{% endblock %}

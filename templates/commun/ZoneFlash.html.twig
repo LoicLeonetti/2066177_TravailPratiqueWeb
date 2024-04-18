@@ -1,0 +1,19 @@
+<section class="row">
+    {% if app.flashes('notice') is defined %}
+    {% for msg in app.flashes('notice') %}
+       <article class="alert alert-info">{{ msg }}</article>
+    {% endfor %}
+    {% endif %}
+
+    {% if app.flashes('succes') is defined %}
+       {% for msg in app.flashes('succes') %}
+        <article class="alert alert-success">{{ msg }}</article>
+       {% endfor %}
+    {% endif %}
+
+    {% if app.flashes('erreur') is defined %}
+    {% for msg in app.flashes('erreur') %}
+       <article class="alert alert-danger">{{ msg }}</article>
+    {% endfor %}
+    {% endif %}
+</section>

@@ -20,8 +20,14 @@
 		<button class="btn btn-secondary">Contact</button>
 	</a>
 
-	<button class="btn btn-secondary">Créer un compte</button>
-	<button class="btn btn-secondary">Connexion</button>
+	{% if clientConnecte is not defined or clientConnecte is null %}
+		<a href="{{path('creationClient')}}"><button class="btn btn-secondary">Créer un compte</button></a>
+		<a href="{{path('connexion')}}"><button class="btn btn-secondary">Connexion</button></a>
+	{% else %}
+		<a href="{{path('deconnexion')}}"><button class="btn btn-secondary">Déconnexion</button></a>
+		<a href="{{path('modification')}}"><button class="btn btn-secondary">Modification</button></a>
+	{% endif %}
+
 
 	{% if panier.getNombreItem() > 1 %}
 		<a href="{{path('panier')}}">

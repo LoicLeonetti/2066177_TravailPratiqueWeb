@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[UniqueEntity(fields:"nom", message:"existe déjà en BD")] 
+#[UniqueEntity(fields:"nom", message:"existe déjà")] 
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
 class Client
 {
@@ -17,9 +17,8 @@ class Client
     private ?int $id = null;
 
     #[ORM\Column()]
-   
     #[Assert\Regex(
-        pattern: '/^[a-zA-Z0-9]{2,15}$/i',
+        pattern: '/^.{2,15}$/i',
         match: true,
         message: 'La taille ou le contenu non conforme'
     )]
@@ -27,7 +26,7 @@ class Client
 
     #[ORM\Column()]
     #[Assert\Regex(
-        pattern: '/^[a-zA-Z0-9]{2,15}$/i',
+        pattern: '/^.{2,15}$/i',
         match: true,
         message: 'La taille ou le contenu non conforme'
     )]
@@ -35,7 +34,7 @@ class Client
 
     #[ORM\Column()]
     #[Assert\Regex(
-        pattern: '/^[a-zA-Z0-9]{2,15}$/i',
+        pattern: '/^.{2,15}$/i',
         match: true,
         message: 'La taille ou le contenu non conforme'
     )]
@@ -50,7 +49,7 @@ class Client
 
     #[ORM\Column()]
     #[Assert\Regex(
-        pattern: '/^[a-zA-Z0-9]{2,15}$/i',
+        pattern: '/^.{2,15}$/i',
         match: true,
         message: 'La taille ou le contenu non conforme'
     )]
@@ -58,13 +57,13 @@ class Client
 
     #[ORM\Column()]
     #[Assert\Regex(
-        pattern: '/^[a-zA-Z0-9]{2,15}$/i',
+        pattern: '/^.{2,15}$/i',
         match: true,
         message: 'La taille ou le contenu non conforme'
     )]
     private ?string $ville = null;
-
-    #[ORM\Column(length: 50)]
+    #
+    #[ORM\Column()]
     #[Assert\Choice(
         choices: [
             'Ontario', 'Québec ', 'Nouvelle-Écosse', 'Nouveau-Brunswick', 'Manitoba', 'Colombie-Britannique',
@@ -74,23 +73,25 @@ class Client
     )]
     private ?string $province = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column()]
     #[Assert\Regex(
         pattern: '/^[A-CEGHJ-NPR-TV-Z][0-9][A-CEGHJ-NPR-TV-Z] ?[0-9][A-CEGHJ-NPR-TV-Z][0-9]$/i',
         match: true,
-        message: 'Le fromat du code postal est on conforme'
+        message: 'Le format du code postal est on conforme'
     )]
     private ?string $codePostal = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Email()]
+    #[Assert\Email(
+        message: 'Le format de l\'adresse courriel est invalide'
+    )]
     private ?string $adresseCourriel = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Regex(
-        pattern: '/^.+{2,15}$/i',
+        pattern: '/^.{2,15}$/i',
         match: true,
-        message: 'La taille ou le contenu du mot de passe non conform'
+        message: 'La taille ou le contenu non conforme'
     )]
     private ?string $motDePasse = null;
 

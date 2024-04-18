@@ -23,7 +23,6 @@ class ClientType extends AbstractType
             ->add('codePostal')
             ->add('adresseCourriel')
             ->add('motDePasse')
-            //->add('confirmationMotDePasse')
             ->add('creer',SubmitType::class)
         ;
     }

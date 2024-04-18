@@ -8,67 +8,136 @@
 	<!-- Nom: Loic Leonetti -->
 	<!-- Date: 2024-04-11   -->
 
-		<div class='row'> {{form_start(formClient)}}
-		<div>
-			{{ form_label(formClient.nom, "Utilisateur") }}
-			{{ form_widget(formClient.nom) }}
-			{{ form_errors(formClient.nom) }}
-		</div>
-		<div>
-			
-			{{ form_label(formClient.prenom, "Prénom") }}
-			{{ form_widget(formClient.prenom) }}
-			{{ form_errors(formClient.prenom) }}
-		</div>
-		<div>
-			{{ form_label(formClient.nomFamille, "Nom de famille") }}
-			{{ form_widget(formClient.nomFamille) }}
-			{{ form_errors(formClient.nomFamille) }}
-		</div>
-		<div>
-			{{ form_label(formClient.genre, "Genre") }}
-			{{ form_widget(formClient.genre) }}
-			{{ form_errors(formClient.genre) }}
-		</div>
-		<div>
-			{{ form_label(formClient.adresse, "Adresse") }}
-			{{ form_widget(formClient.adresse) }}
-			{{ form_errors(formClient.adresse) }}
-		</div>
-		<div>
-			{{ form_label(formClient.ville, "Ville") }}
-			{{ form_widget(formClient.ville) }}
-			{{ form_errors(formClient.ville) }}
-		</div>
-		<div>
-			{{ form_label(formClient.province, "Province") }}
-			{{ form_widget(formClient.province) }}
-			{{ form_errors(formClient.province) }}
-		</div>
-		<div>
-			{{ form_label(formClient.codePostal, "Code Postal") }}
-			{{ form_widget(formClient.codePostal) }}
-			{{ form_errors(formClient.codePostal) }}
-		</div>
-		<div>
-			{{ form_label(formClient.adresseCourriel, "Adresse Courriel") }}
-			{{ form_widget(formClient.adresseCourriel) }}
-			{{ form_errors(formClient.adresseCourriel) }}
-		</div>
-        <!-- TODO: Ajouter un champ pour le mot de passe
+		{% if mode == "creation" %}
+		<div class='container row'> {{form_start(formClient)}}
+			<div>
+				{{ form_label(formClient.nom, "Utilisateur") }}
+				{{ form_widget(formClient.nom, {attr:{'class':'form-control courtTexte'} }) }}
+				{{ form_errors(formClient.nom) }}
+			</div>
 
-        -->
-        <div>
-			{{ form_label(formClient.motDePasse, "Mot de passe") }}
-			{{ form_widget(formClient.motDePasse) }}
-			{{ form_errors(formClient.motDePasse) }}
+
+			<div>
+
+				{{ form_label(formClient.prenom, "Prénom") }}
+				{{ form_widget(formClient.prenom, {attr:{'class':'form-control courtTexte'} }) }}
+				{{ form_errors(formClient.prenom) }}
+			</div>
+			<div>
+				{{ form_label(formClient.nomFamille, "Nom de famille") }}
+				{{ form_widget(formClient.nomFamille, {attr:{'class':'form-control courtTexte'} }) }}
+				{{ form_errors(formClient.nomFamille) }}
+			</div>
+			<div>
+				{{ form_label(formClient.genre, "Genre") }}
+				{{ form_widget(formClient.genre, {attr:{'class':'form-control courtTexte'} }) }}
+				{{ form_errors(formClient.genre) }}
+			</div>
+			<div>
+				{{ form_label(formClient.adresse, "Adresse") }}
+				{{ form_widget(formClient.adresse, {attr:{'class':'form-control courtTexte'} }) }}
+				{{ form_errors(formClient.adresse) }}
+			</div>
+			<div>
+				{{ form_label(formClient.ville, "Ville") }}
+				{{ form_widget(formClient.ville, {attr:{'class':'form-control courtTexte'} }) }}
+				{{ form_errors(formClient.ville) }}
+			</div>
+			<div>
+				{{ form_label(formClient.province, "Province") }}
+				{{ form_widget(formClient.province, {attr:{'class':'form-control courtTexte'} }) }}
+				{{ form_errors(formClient.province) }}
+			</div>
+			<div>
+				{{ form_label(formClient.codePostal, "Code Postal") }}
+				{{ form_widget(formClient.codePostal, {attr:{'class':'form-control courtTexte'} }) }}
+				{{ form_errors(formClient.codePostal) }}
+			</div>
+			<div>
+				{{ form_label(formClient.adresseCourriel, "Adresse Courriel") }}
+				{{ form_widget(formClient.adresseCourriel, {attr:{'class':'form-control courtTexte'} }) }}
+				{{ form_errors(formClient.adresseCourriel) }}
+			</div>
+			<!-- TODO: Ajouter un champ pour le mot de passe
+			
+			        -->
+			<div>
+				{{ form_label(formClient.motDePasse, "Mot de passe") }}
+				{{ form_widget(formClient.motDePasse, {attr:{'class':'form-control courtTexte'} }) }}
+				{{ form_errors(formClient.motDePasse) }}
+			</div>
+
+			<div>
+				{{ form_widget(formClient.creer, {'attr': {'class':'btn btn-primary'} } ) }}
+			</div>
+
+			{{form_end(formClient)}}
 		</div>
-        <div>
-			{{ form_widget(formClient.creer) }}
+	{% elseif mode == "modification" %}
+		<div class='container row '>
+
+			<h1>Modification des infos de {{clientConnecte.nom}}</h1>
+
+			{{form_start(formInfo)}}
+				<div>
+
+					{{ form_label(formInfo.prenom, "Prénom") }}
+					{{ form_widget(formInfo.prenom, {attr:{'class':'form-control courtTexte','value':clientConnecte.prenom} }) }}
+					{{ form_errors(formInfo.prenom) }}
+				</div>
+				<div>
+					{{ form_label(formInfo.nomFamille, "Nom de famille") }}
+					{{ form_widget(formInfo.nomFamille, {attr:{'class':'form-control courtTexte','value':clientConnecte.nomFamille} }) }}
+					{{ form_errors(formInfo.nomFamille) }}
+				</div>
+				<div>
+					{{ form_label(formInfo.genre, "Genre") }}
+					{{ form_widget(formInfo.genre, {attr:{'class':'form-control courtTexte','value':clientConnecte.genre} }) }}
+					{{ form_errors(formInfo.genre) }}
+				</div>
+				<div>
+					{{ form_label(formInfo.adresse, "Adresse") }}
+					{{ form_widget(formInfo.adresse, {attr:{'class':'form-control courtTexte','value':clientConnecte.adresse} }) }}
+					{{ form_errors(formInfo.adresse) }}
+				</div>
+				<div>
+					{{ form_label(formInfo.ville, "Ville") }}
+					{{ form_widget(formInfo.ville, {attr:{'class':'form-control courtTexte','value':clientConnecte.ville} }) }}
+					{{ form_errors(formInfo.ville) }}
+				</div>
+				<div>
+					{{ form_label(formInfo.province, "Province") }}
+					{{ form_widget(formInfo.province, {attr:{'class':'form-control courtTexte','value':clientConnecte.province} }) }}
+					{{ form_errors(formInfo.province) }}
+				</div>
+				<div>
+					{{ form_label(formInfo.codePostal, "Code Postal") }}
+					{{ form_widget(formInfo.codePostal, {attr:{'class':'form-control courtTexte','value':clientConnecte.codePostal} }) }}
+					{{ form_errors(formInfo.codePostal) }}
+				</div>
+				<div>
+					{{ form_label(formInfo.adresseCourriel, "Adresse Courriel") }}
+					{{ form_widget(formInfo.adresseCourriel, {attr:{'class':'form-control courtTexte','value':clientConnecte.adresseCourriel}}) }}
+					{{ form_errors(formInfo.adresseCourriel) }}
+				</div>
+
+				<hr>
+				{{form_label(formInfo.motDePasse, "Mot de passe")}}
+				{{form_widget(formInfo.motDePasse, {attr:{'class':'form-control courtTexte','value':clientConnecte.motDePasse} })}}
+				{{form_errors(formInfo.motDePasse)}}
+
+				
+				{% do formInfo.nom.setRendered %}
+				{% do formInfo.motDePasse.setRendered %}
+
+
+				<div>
+					{{ form_widget(formInfo.creer, {'attr': {'class':'btn btn-primary my-2'} } ) }}
+				</div>
+			{{form_end(formInfo)}}
 		</div>
-        
-		{{form_end(formClient,{'render_rest': false})}}
-	</div>
+		
+	{% endif %}
 
 
 {% endblock %}
