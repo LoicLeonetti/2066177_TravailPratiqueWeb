@@ -12,13 +12,9 @@
 </div>
 <div class="bandeau">
 
-	<a href="{{path('catalogue')}}">
-		<button class="btn btn-secondary">Catalogue</button>
-	</a>
+	<a href="{{path('catalogue')}}"><button class="btn btn-secondary">Catalogue</button></a>
 
-	<a href="{{path('contact')}}">
-		<button class="btn btn-secondary">Contact</button>
-	</a>
+	<a href="{{path('contact')}}"><button class="btn btn-secondary">Contact</button></a>
 
 	{% if clientConnecte is not defined or clientConnecte is null %}
 		<a href="{{path('creationClient')}}"><button class="btn btn-secondary">Créer un compte</button></a>

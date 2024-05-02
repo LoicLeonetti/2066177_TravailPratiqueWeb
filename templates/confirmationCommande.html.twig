@@ -1,0 +1,82 @@
+{% extends('base.html.twig') %}
+
+
+{% block javascripts %}
+	<script src="{{asset('js/modaleProduit.js')}}"></script>
+{% endblock %}
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-04-17   -->
+
+	{{ include('commun/ZoneFlash.html.twig') }}
+		<div class='row'> <div class='container col-7 row'>
+			<h1>Confirmation de la commande:</h1>
+
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Titre</th>
+						<th>Prix</th>
+						<th>Quantité</th>
+						<th>Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- Remplir avec session -->
+
+					{% for p in commande.commandeDetails %}
+						<tr>
+							<td>{{p.produit.nom}}</td>
+							<td>${{p.produit.getPrix()}}</td>
+							<td>{{p.quantite}}</td>
+							<td>${{p.produit.getPrix() * p.quantite}}</td>
+						</tr>
+					{% endfor %}
+
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2"></td>
+						<td>Total achat</td>
+						<td>${{panier.getValeurPanier()}}</td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td>Frais de livraison
+						</td>
+						<td>${{panier.getFraisLivraison}}</td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td>Total avant taxes</td>
+						<td>${{panier.getTotalAvantTaxes()}}</td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td>TPS (0,05)</td>
+						<td>${{panier.getTPS()}}</td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td>TVQ (0,09975)</td>
+						<td>${{panier.getTVQ()}}</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+
+		<div class="col-5">
+			<h1>Options</h1>
+
+			<a href="{{path('panier')}}"><Button class="btn btn-info">Retour au panier</Button></a>
+
+			<a href="{{path('catalogue')}}"><Button class="btn btn-info">Retour au catalogue</Button></a>
+
+            <a href="{{path('confirmation_commande')}}"><Button class="btn btn-success">Confirmer</Button></a>
+
+		</div>
+
+	</div>
+{% endblock %}
