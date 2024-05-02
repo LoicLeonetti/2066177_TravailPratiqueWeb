@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -94,6 +96,18 @@ class Client
         message: 'La taille ou le contenu non conforme'
     )]
     private ?string $motDePasse = null;
+    
+    /**
+    * @var Collection<int, commande>
+    */
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'client',cascade: ['persist','remove'])]
+    private Collection $commandes;
+
+
+    public function __construct()
+    {
+        $this->commandes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -219,4 +233,38 @@ class Client
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(commande $commande): static
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(commande $commande): static
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getClient() === $this) {
+                $commande->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+   
+
 }
