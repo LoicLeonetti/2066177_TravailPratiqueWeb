@@ -60,26 +60,28 @@ class CommandeController extends AbstractController
         
         // Ajout Date Commande
         $commande->setDateCommande(new \DateTime());
-
-
-        // On garde la commande comme membre privé de la classe pour pouvoir y accéder dans la méthode confirmation_commande
+        
         
         
         return $this->render('confirmationCommande.html.twig',['panier'=>$panier,'clientConnecte'=>$client,'commande'=>$commande]);
     }
 
-    #[Route('/confirmation_commande', name: 'confirmation_commande')]
+    #[Route('/payer_commande', name: 'payer_commande')]
     public function confirmation_commande(ManagerRegistry $doctrine, Request $request): Response
     {   
-        
-        
+        $client = $request->getSession()->get('clientConnecte');
+        if ($client == null) {
+           $this->addFlash('erreur', "Vous devez vous connecter avant de passer la commande");
+           return $this->redirectToRoute('connexion');
+        }
 
+        $panier = $request->getSession()->get('panier');
+        if ($panier == null) {
+            $this->addFlash('erreur', "Votre panier est vide");
+            return $this->redirectToRoute('catalogue');
+        }
 
-        
-
-        $this->addFlash('success', "Votre commande a été enregistrée avec succès");
-
-        return $this->redirectToRoute('catalogue');
+        return $this->render('payerCommande.html.twig',['panier'=>$panier,'clientConnecte'=>$client]);
     }
 
     private function CalculeRupture($quantiteCommandee, $quantiteStock)

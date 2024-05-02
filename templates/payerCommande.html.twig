@@ -1,0 +1,74 @@
+
+
+{% extends('base.html.twig') %}
+
+
+{% block javascripts %}
+	<script src="{{asset('js/modaleProduit.js')}}"></script>
+{% endblock %}
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-04-17   -->
+{{ include('commun/ZoneFlash.html.twig') }}
+		        <div class="row">
+      <div class="col-3"></div>
+      <div class="col-9">
+         <H1>Paiement de la commande</h1>
+         <form method='post' onsubmit='return(validerCC(this));' id='carteCr'>
+           <table>
+             <tr>
+               <td><h3>Type de carte de crédit</h3></td>
+             </tr>
+             <tr>
+               <td>
+                  <input type='radio' value='V' name='carteC' id='visa'/>  <img src='/img/visa.gif' alt='Visa'/> 
+                  <input type='radio' value='M' name='carteC' />           <img src='/img/mastercard.gif' alt='MC'/>
+		          <input type='radio' value='A' name='carteC' />           <img src='/img/amex.gif' alt='Amex'/>
+               </td>
+             </tr>
+             <tr>
+               <td><h3>Saisissez le numéro (sans espace)</h3>
+             </tr>
+             <tr>
+               <td><input type='text' size='20' maxlength='20' name='noCarte'/></td></tr>
+             <tr>
+               <td><h3>Date d'expiration</h3></td>
+             </tr>
+             <tr>
+               <td><h4>Mois
+                 <select name='mois' class='credit'> 
+                   <option value='01'>01</option>
+                   <option value='02'>02</option>
+                   <option value='03'>03</option>
+                   <option value='04' selected>04</option>
+                   <option value='05'>05</option>
+                   <option value='06'>06</option>
+                   <option value='07'>07</option>
+                   <option value='08'>08</option>
+                   <option value='09'>09</option>
+                   <option value='10'>10</option>
+                   <option value='11'>11</option>
+                   <option value='12'>12</option>
+                 </select>
+                 &nbsp;&nbsp;Année
+	             <select name='annee' class='credit'>
+	               <option value='2024'>2024</option>
+	               <option value='2025'>2025</option>
+	               <option value='2026'>2026</option>
+	               <option value='2027'>2027</option>
+                 </select></h4>	
+               </td>
+             </tr>      
+             <tr>
+               <td><input type='submit' value='Valider' name='ValiderCC' class="btn btn-danger"><br><hr></td>  
+             </tr>
+           </table>
+         </form> 
+         <a href="/panierAccueil" class="btn btn-primary">Retour au panier</a>
+         <a href="/" class="btn btn-primary">Retour au catalogue</a>
+      </div>
+   </div>
+   <script src="/js/validationCommande.js"></script>         
+{% endblock %}
