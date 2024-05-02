@@ -147,6 +147,8 @@ class catalogueController extends AbstractController
             $request->getSession()->set('panier',$panier);
         }
 
-        return $this->render("contact.html.twig",[ 'panier'=>$panier]);
+        $clientConnecte = $request->getSession()->get('clientConnecte');
+
+        return $this->render("contact.html.twig",['panier'=>$panier,'clientConnecte'=>$clientConnecte]);
     }
 }
