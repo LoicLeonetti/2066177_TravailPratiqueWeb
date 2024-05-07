@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CommandeRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -26,7 +27,7 @@ class Commande
     /**
      * @var Collection<int, commandeDetail>
      */
-    #[ORM\OneToMany(targetEntity: CommandeDetail::class, mappedBy: 'commande',cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: CommandeDetail::class, mappedBy: 'commande',cascade: ['persist','remove'])]
     private Collection $commandeDetails;
 
     public function __construct()
@@ -92,6 +93,33 @@ class Commande
         }
 
         return $this;
+    }
+
+    public function peutAnnuler(): bool
+    {
+        if($this->getDateCommande() > new \DateTime('now - 48 hours')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function tempRestantPourAnnuler(): string
+    {   
+        $datelimite = date_modify($this->dateCommande, '+48 hours');
+        $date = new \DateTime();
+        $interval = $datelimite->diff($date);
+
+        return $interval->format('%d jour %h heures');
+    }   
+
+    public function CalculeTotal(): float
+    {
+        $total = 0;
+        foreach ($this->commandeDetails as $cd) {
+            $total += $cd->getProduit()->getPrix() * $cd->getQuantite();
+        }
+        return $total;
     }
 
 

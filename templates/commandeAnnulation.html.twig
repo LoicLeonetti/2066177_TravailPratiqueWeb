@@ -1,0 +1,18 @@
+{% extends('base.html.twig') %}
+
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-05-06   -->
+
+	{{ include('commun/ZoneFlash.html.twig') }}
+		
+        <div class="container row">
+            <h1>Confirmez-vous l'annulation de la commande {{id}}?</h1>
+
+            <a href="{{path('annuler_commande',{id:id})}}"><Button class="btn btn-danger">Annuler la commande</Button></a>
+            <a href="{{path('historique')}}"><Button class="btn btn-info">Retour à l'historique</Button></a>
+            
+        </div>
+{% endblock %}

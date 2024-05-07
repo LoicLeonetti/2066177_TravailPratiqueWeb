@@ -1,0 +1,27 @@
+{% extends('base.html.twig') %}
+
+
+{% block javascripts %}
+	<script src="{{asset('js/modaleProduit.js')}}"></script>
+{% endblock %}
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-04-17   -->
+
+	{{ include('commun/ZoneFlash.html.twig') }}
+		
+        <div class="container row">
+            <h1>La commande sera envoyée à:</h1>
+            <h2>{{commande.getClient().getPrenom()}} {{commande.getClient().getNomFamille()}}</h2>
+            <h3>{{commande.getClient().getAdresse()}},{{commande.getClient().getProvince()}}</h3>
+            <h3>{{commande.getClient().getCodePostal()}}</h3>
+            <h4>Vous avez 48 heures pour annuler la commande</h4>
+            <hr>
+            <h4>Vous recevre un courriel de confirmation à {{commande.getClient().getAdresseCourriel()}}</h4>
+
+            <a href="{{path('panier')}}"><Button class="btn btn-info">Retour au panier</Button></a>
+			<a href="{{path('catalogue')}}"><Button class="btn btn-info">Retour au catalogue</Button></a>
+        </div>
+{% endblock %}

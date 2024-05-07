@@ -95,6 +95,8 @@ class ClientController extends AbstractController
     {   
         $connexion = new ConnexionClient();
 
+        $state = $request->query->get('state');
+        
         $panier = $request->getSession()->get('panier');
 
         if ($panier == null) {
@@ -121,6 +123,11 @@ class ClientController extends AbstractController
                 if ($client != null) {
                     $request->getSession()->set('clientConnecte',$client);
                     $this->addFlash('succes', "Connexion réussie");
+
+                    if ($state == '1') {
+                        return $this->redirectToRoute('commande');
+                    }
+
                     return $this->redirectToRoute('catalogue');
                 }else{
                     $this->addFlash('erreur', "Nom ou mot de passe incorrect");
@@ -128,7 +135,11 @@ class ClientController extends AbstractController
             }
         }
 
-        return $this->render('connexion.html.twig', ['formConnexion' => $form->createView(),"panier"=>$panier,"clientConnecte" => null]);
+
+            return $this->render('connexion.html.twig', ['formConnexion' => $form->createView(),"panier"=>$panier,"clientConnecte" => null]);
+        
+
+       
     }
     #--------------------------------------------------------------------------------#
     #--------------------------------------------------------------------------------#

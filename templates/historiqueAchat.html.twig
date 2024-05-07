@@ -1,0 +1,32 @@
+{% extends('base.html.twig') %}
+
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-05-06   -->
+
+	{{ include('commun/ZoneFlash.html.twig') }}
+		
+        <div class="container row">
+            <h1>Historique des achats</h1>
+            {% for c in commandes %}
+                <div class="row">
+                    <h3>Commande #{{c.getId()}}: {{c.CalculeTotal()}}$ ({{c.getDateCommande()|date('Y-m-d')}})</h3>
+                    {% if c.peutAnnuler() %}
+                        <h4>Il vous reste {{c.tempRestantPourAnnuler}} pour <a href="{{path('commande_annulation',{id:c.getId()})}}"><button class="btn btn-danger">annuler</button></a> </h4>
+                    {% else %}
+                        <h4>Il est trop tard pour annuler</h4>
+                    {% endif %}
+                    
+                    {% for cd in c.getCommandeDetails() %}
+                        <div>
+                            <h5>{{cd.getProduit().getNom()}} {{cd.getQuantite()}}x</h5>
+                        </div>
+                    {% endfor %}
+                    
+                    <hr>    
+                </div>
+            {% endfor %}
+        </div>
+{% endblock %}
