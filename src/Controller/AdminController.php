@@ -15,6 +15,8 @@ use App\Form\CategorieType;
 use App\Form\ProduitType;
 use App\Entity\Commande;
 
+
+
 class AdminController extends AbstractController
 {
     #--------------------------------------------------------------------------------#
@@ -175,6 +177,52 @@ class AdminController extends AbstractController
         return $this->render('adminRapportVente.html.twig',['commandes' => $commandes]);
     }
 
+    #[Route('/adminProduits', name: 'adminProduits')]
+    public function adminProduits(ManagerRegistry $doctrine, Request $request): Response
+    {   
+        $em = $doctrine->getManager();
+
+        $admin = $request->getSession()->get('admin');
+
+        if (!$admin) {
+            $this->addFlash('erreur', 'Non au piratage!');
+            return $this->redirectToRoute('catalogue');
+        }
+
+        $produits = $em->getRepository(Produit::class)->findAll();
+        
+        array_reverse($produits);
+
+        return $this->render('adminProduits.html.twig',['produits' => $produits]);
+    }
+
+    #[Route('/adminProduitsCommander', name: 'adminProduitsCommander')]
+    public function adminProduitsCommander(ManagerRegistry $doctrine, Request $request): Response
+    {   
+        $em = $doctrine->getManager();
+
+        $admin = $request->getSession()->get('admin');
+
+        if (!$admin) {
+            $this->addFlash('erreur', 'Non au piratage!');
+            return $this->redirectToRoute('catalogue');
+        }
+
+        $produits = $em->getRepository(Produit::class)->findAll();
+
+        $produitsACommander = [];
+        
+        foreach ($produits as $p) {
+            if ($p->getQtteStock() < $p->getQtteSeuilMin()) {
+               array_push($produitsACommander, $p);
+            }
+        }
+
+        return $this->render('adminProduits.html.twig',['produits' => $produits]);
+    }
+
+
+    
     
     
 }
