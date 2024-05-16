@@ -1,0 +1,43 @@
+
+{% extends('baseAdmin.html.twig') %}
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-05-16   -->
+	<div>
+	{{ include('commun/ZoneFlash.html.twig') }}
+	</div>
+	<div class='container row my-3'>
+
+		<div class="col-7">
+			<h2>Ventes les plus récentes:</h2>
+
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th>ID</th>
+                    <th>Date de la commande</th>
+                    <th>Client</th>
+                    <th>Total</th>
+                </tr>
+                
+                {% for c in commandes %}
+                <tr>
+                    <td>{{ c.id }}</td>
+                    <td>{{ c.dateCommande|date('Y-m-d') }}</td>
+                    <td>{{ c.client.nom }}</td>
+                    <td class="pull-right">{{ c.CalculeTotal() }} $</td>
+                {% endfor %}
+
+            </table>
+
+		</div>
+		<div class="col-4">
+			<a href="{{path('adminMenu')}}"><button class="btn btn-warning">Retour au menu</button></a>
+		</div>
+		
+
+
+	</div>
+{% endblock %}
+

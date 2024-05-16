@@ -13,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\CategorieType;
 use App\Form\ProduitType;
+use App\Entity\Commande;
 
 class AdminController extends AbstractController
 {
@@ -141,12 +142,37 @@ class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
 
-            dd($produit);
+            $produit->setImage('ImageManquante');
+
+            $em->persist($produit);
+            $em->flush();
+
+            $this->addFlash('succes', 'Produit '. $produit->getNom() .  ' ajouté avec succès');
+            return $this->redirectToRoute('adminMenu');
         }
 
         $categories = $em->getRepository(Categorie::class)->findAll();
 
         return $this->render('adminAjouterProduit.html.twig',['form' => $form->createView(), 'categories' => $categories]);
+    }
+
+    #[Route('/adminRapportVentes', name: 'adminRapportVentes')]
+    public function adminRapportVentes(ManagerRegistry $doctrine, Request $request): Response
+    {   
+        $em = $doctrine->getManager();
+
+        $admin = $request->getSession()->get('admin');
+
+        if (!$admin) {
+            $this->addFlash('erreur', 'Non au piratage!');
+            return $this->redirectToRoute('catalogue');
+        }
+
+        $commandes = $em->getRepository(Commande::class)->findAll();
+        
+        array_reverse($commandes);
+
+        return $this->render('adminRapportVente.html.twig',['commandes' => $commandes]);
     }
 
     

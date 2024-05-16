@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\{ChoiceType, SubmitType};
 
 use App\Entity\Categorie;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\CallbackTransformer;
 
 class ProduitType extends AbstractType
@@ -34,26 +35,12 @@ class ProduitType extends AbstractType
             ->add('Prix')
             ->add('Qtte_stock')
             ->add('Qtte_seuil_min')
-            ->add('idCategorie', ChoiceType::class, [
-                'choices' => $categories,
-                'choice_label' => 'description'
+            ->add('categorie', EntityType::class, [
+                'class' => Categorie::class,
+                'choice_label' => 'Description',
             ])
             ->add('ajouter', SubmitType::class)
         ;
-
-        $builder->get('idCategorie')
-        ->addModelTransformer(new CallbackTransformer(
-            function ($categorieAsEntity) {
-                // transform the Categorie entity to its id
-                return $categorieAsEntity ? $categorieAsEntity->getId() : null;
-            },
-            function ($categorieAsId) {
-                // transform the id back to a Categorie entity
-                // this is not needed if 'idCategorie' is a write-only property
-                return $categorieAsId ? $this->entityManager->getRepository(Categorie::class)->find($categorieAsId) : null;
-            }
-        ));
-        
 
     }
 

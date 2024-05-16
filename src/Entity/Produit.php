@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+
+
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
 {
@@ -34,8 +36,8 @@ class Produit
     #[ORM\Column(length: 50)]
     private ?string $Image = null;
 
-    #[ORM\Column]
-    private ?int $idCategorie = null;
+    #[ORM\ManyToOne]
+    private ?Categorie $categorie = null;
 
 
     public function getId(): ?int
@@ -115,17 +117,16 @@ class Produit
         return $this;
     }
 
-    public function getIdCategorie(): ?int
+    public function getCategorie(): ?Categorie
     {
-        return $this->idCategorie;
+        return $this->categorie;
     }
 
-    public function setIdCategorie(int $idCategorie): static
+    public function setCategorie(?Categorie $categorie): static
     {
-        $this->idCategorie = $idCategorie;
+        $this->categorie = $categorie;
 
         return $this;
     }
-
 
 }

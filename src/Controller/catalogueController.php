@@ -111,7 +111,7 @@ class catalogueController extends AbstractController
         $tabTMP = [];
         // Ajoute les produits dans le liste si le categorieId est le meme que le recherche
         foreach ($produits as $p) {
-            if ($p->getIdCategorie() == $categorieId) {
+            if ($p->getCategorie()->getId() == $categorieId) {
 
                 $tabTMP[] = $p;
             }
@@ -128,7 +128,7 @@ class catalogueController extends AbstractController
     {
 
         $produit = $doctrine->getManager()->getRepository(Produit::class)->find($id);
-        $categorie = $doctrine->getManager()->getRepository(Categorie::class)->find($produit->getIdCategorie());
+        $categorie = $doctrine->getManager()->getRepository(Categorie::class)->find($produit->getCategorie()->getId());
 
         return $this->render("detailsProduit.html.twig", ["produit" => $produit, "categorie" => $categorie]);
     }

@@ -16,7 +16,7 @@ class ProduitPanier extends Produit
             $this->setDescription($var->getDescription());
             $this->setPrix($var->getPrix());
             $this->setImage($var->getImage());
-            $this->setIdCategorie($var->getIdCategorie());
+            $this->setCategorie($var->getCategorie());
             $this->produitId = $var->getId();
         }
     }
