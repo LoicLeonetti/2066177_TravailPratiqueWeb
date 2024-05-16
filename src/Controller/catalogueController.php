@@ -25,7 +25,7 @@ class catalogueController extends AbstractController
     #--------------------------------------------------------------------------------#
     #--------------------------------------------------------------------------------#
     #--------------------------------------------------------------------------------#
-    #[Route('/', name: 'catalogue')]
+    #[Route('/catalogue', name: 'catalogue')]
     public function accueil(ManagerRegistry $doctrine, Request $request): Response
     {   
         $panier = $request->getSession()->get('panier');

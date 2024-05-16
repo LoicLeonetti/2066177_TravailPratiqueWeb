@@ -1,0 +1,39 @@
+
+{% extends('baseAdmin.html.twig') %}
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-05-16   -->
+	<div>
+	{{ include('commun/ZoneFlash.html.twig') }}
+	</div>
+	<div class='container row my-3'>
+
+		<div class="col-7">
+			<h2>Connexion Admin</h2>
+			{{form_start(form)}}
+
+
+				{{ form_label(form.nom, "Admin") }}
+				{{ form_widget(form.nom, {attr:{'class':'form-control courtTexte'} }) }}
+				{{ form_errors(form.nom) }}
+
+				{{ form_label(form.mdp, "Mot de passe") }}
+				{{ form_widget(form.mdp, {attr:{'class':'form-control courtTexte'} }) }}
+				{{ form_errors(form.mdp) }}
+
+				{{ form_widget(form.valider, {'attr': {'class':'btn btn-primary my-2'} } ) }}
+
+
+			{{form_end(form)}}
+		</div>
+		<div class="col-4">
+			<a href="{{path('catalogue')}}"><button class="btn btn-warning">Retour au catalogue</button></a>
+		</div>
+		
+
+
+	</div>
+{% endblock %}
+

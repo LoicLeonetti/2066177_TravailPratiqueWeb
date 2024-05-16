@@ -1,0 +1,52 @@
+
+{% extends('baseAdmin.html.twig') %}
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-05-16   -->
+	<div>
+	{{ include('commun/ZoneFlash.html.twig') }}
+	</div>
+	<div class='container row my-3'>
+
+		<div class="col-7">
+			<h2>Ajouter une catégorie</h2>
+            {{form_start(form)}}
+                {{ form_label(form.Nom, "Race:") }}
+                {{ form_widget(form.Nom, {attr:{'class':'form-control courtTexte'} }) }}
+                {{ form_errors(form.Nom) }}
+
+                {{ form_label(form.Description, "Description:") }}
+                {{ form_widget(form.Description, {attr:{'class':'form-control courtTexte'} }) }}
+                {{ form_errors(form.Description) }}
+
+                {{ form_label(form.Prix, "Prix:") }}
+                {{ form_widget(form.Prix, {attr:{'class':'form-control courtTexte'} }) }}
+                {{ form_errors(form.Prix) }}
+
+                {{ form_label(form.Qtte_stock, "Quantité inventaire") }}
+                {{ form_widget(form.Qtte_stock, {attr:{'class':'form-control courtTexte'} }) }}
+                {{ form_errors(form.Qtte_stock) }}
+
+                {{ form_label(form.Qtte_seuil_min, "Quantité minimale") }}
+                {{ form_widget(form.Qtte_seuil_min, {attr:{'class':'form-control courtTexte'} }) }}
+                {{ form_errors(form.Qtte_seuil_min) }}
+
+                {{ form_label(form.idCategorie, "Catégorie") }}
+                {{ form_widget(form.idCategorie, {attr:{'class':'form-control select'} }) }}
+                {{ form_errors(form.idCategorie) }}
+
+
+                {{ form_widget(form.ajouter, {'attr': {'class':'btn btn-primary my-2'} } ) }}
+            {{form_end(form)}}	
+
+		</div>
+		<div class="col-4">
+			<a href="{{path('adminMenu')}}"><button class="btn btn-warning">Retour au menu</button></a>
+		</div>
+		
+
+
+	</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Chatropie
+			{% endblock %}
+		</title>
+		{{ include('commun/bootstrapJQuery.html.twig')}}
+
+		{% block stylesheets %}<link rel="stylesheet" href="{{asset('css/commun.css')}}">{% endblock %}
+
+		{% block javascripts %}{% endblock %}
+
+	</head>
+	<body>
+		<div>
+			{{include('commun/enteteAdmin.html.twig')}}
+			{% block body %}
+
+					
+			{% endblock %}
+			{{include('commun/pieds.html.twig')}}
+		</div>
+	</body>
+</html>

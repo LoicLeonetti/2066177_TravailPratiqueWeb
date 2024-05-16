@@ -1,0 +1,33 @@
+
+{% extends('baseAdmin.html.twig') %}
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-05-16   -->
+	<div>
+	{{ include('commun/ZoneFlash.html.twig') }}
+	</div>
+	<div class='container row my-3'>
+
+		<h2>Menu Administrateur</h2>
+
+		<div class="col-2">
+			<a href="{{path('adminAjouterCategorie')}}"><button class="btn btn-primary my-2">Ajouter Catégorie</button></a>
+			<a><button class="btn btn-primary my-2">Modifier Catégorie</button></a>
+			<a href="{{path('adminAjouterProduit')}}"><button class="btn btn-primary my-2">Ajouter Produit</button></a>
+			<a><button class="btn btn-primary my-2">Modifier Produit</button></a>
+			<a><button class="btn btn-primary my-2" >Rapport Ventes</button></a>
+			<a><button class="btn btn-primary my-2">Produits de l'inventaire</button></a>
+			<a><button class="btn btn-primary my-2">Produits à commander</button></a>
+		</div>
+        
+		<div class="col-3">
+            <a href="{{path('adminDeconnexion')}}"><button class="btn btn-warning my-2">Déconnexion</button></a>
+        </div>
+		
+
+
+	</div>
+{% endblock %}
+

@@ -1,0 +1,37 @@
+
+{% extends('baseAdmin.html.twig') %}
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-04-17   -->
+	<div>
+	{{ include('commun/ZoneFlash.html.twig') }}
+	</div>
+	<div class='container row my-3'>
+
+		<div class="col-7">
+			<h2>Ajouter une catégorie</h2>
+            {{form_start(form)}}
+                {{ form_label(form.description, "Nouvelle:") }}
+                {{ form_widget(form.description, {attr:{'class':'form-control courtTexte'} }) }}
+                {{ form_errors(form.description) }}
+
+                {{ form_widget(form.ajouter, {'attr': {'class':'btn btn-primary my-2'} } ) }}
+            {{form_end(form)}}	
+
+
+            <h3>Categories existantes:</h3>
+            {% for c in categories %}
+                <p>{{c.id}}. {{c.description}}</p>
+            {% endfor %}
+
+		</div>
+		<div class="col-4">
+			<a href="{{path('adminMenu')}}"><button class="btn btn-warning">Retour au menu</button></a>
+		</div>
+		
+
+
+	</div>
+{% endblock %}
