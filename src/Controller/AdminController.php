@@ -218,7 +218,7 @@ class AdminController extends AbstractController
             }
         }
 
-        return $this->render('adminProduits.html.twig',['produits' => $produits]);
+        return $this->render('adminProduits.html.twig',['produits' => $produitsACommander]);
     }
 
 
