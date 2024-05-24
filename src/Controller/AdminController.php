@@ -250,4 +250,55 @@ class AdminController extends AbstractController
 
         return $this->render('adminModifierCategorie.html.twig', ['categories' => $categories]);
     }
+
+    #[Route('/adminModifierProduits', name: 'adminModifierProduits')]
+    public function adminModifierProduits(ManagerRegistry $doctrine, Request $request): Response
+    {
+        $em = $doctrine->getManager();
+
+        $admin = $request->getSession()->get('admin');
+
+        if (!$admin) {
+            $this->addFlash('erreur', 'Non au piratage!');
+            return $this->redirectToRoute('catalogue');
+        }
+
+        $produits = $em->getRepository(Produit::class)->findAll();
+
+        return $this->render('adminModifierProduits.html.twig', ['produits' => $produits]);
+    }
+
+    
+    #[Route('/adminModifierProduit/{id}', name: 'adminModifierProduit')]
+    public function adminModifierProduit(ManagerRegistry $doctrine, Request $request,$id): Response
+    {
+        $em = $doctrine->getManager();
+
+        $admin = $request->getSession()->get('admin');
+
+        if (!$admin) {
+            $this->addFlash('erreur', 'Non au piratage!');
+            return $this->redirectToRoute('catalogue');
+        }
+
+
+        $produit = $em->getRepository(Produit::class)->find($id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $produit->setNom($_POST['nom']);
+            $produit->setDescription($_POST['description']);
+            $produit->setPrix($_POST['prix']);
+            $produit->setQtteStock($_POST['qtteStock']);
+            $produit->setQtteSeuilMin($_POST['qtteSeuilMin']);
+
+            $em->flush();
+            $this->addFlash('succes', 'Produit modifié avec succès');
+
+            return $this->redirectToRoute('adminMenu');
+        }
+
+
+        return $this->render('adminModifierProduit.html.twig', ['produit' => $produit]);
+    }
 }

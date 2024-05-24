@@ -1,0 +1,24 @@
+{% extends('baseAdmin.html.twig') %}
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-04-17   -->
+		<div>
+	{{ include('commun/ZoneFlash.html.twig') }}
+	</div>
+		<div class='container row my-3'> <div class="col-7">
+			<h2>Cliquez sur le produit à modifier</h2>
+            {% for p in produits %}
+                <a href="{{path('adminModifierProduit', {'id': p.id})}}">{{p.Nom}}</a><br>
+            {% endfor %}
+		</div>
+		<div class="col-4">
+			<a href="{{path('adminMenu')}}">
+				<button class="btn btn-warning">Retour au menu</button>
+			</a>
+		</div>
+
+
+	</div>
+{% endblock %}

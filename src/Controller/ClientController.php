@@ -139,7 +139,7 @@ class ClientController extends AbstractController
         }
 
 
-            return $this->render('connexion.html.twig', ['formConnexion' => $form->createView(),"panier"=>$panier,"clientConnecte" => null]);
+        return $this->render('connexion.html.twig', ['formConnexion' => $form->createView(),"panier"=>$panier,"clientConnecte" => null]);
         
 
        

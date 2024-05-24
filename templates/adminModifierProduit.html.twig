@@ -1,0 +1,41 @@
+{% extends('baseAdmin.html.twig') %}
+
+{% block body %}
+
+	<!-- Nom: Loic Leonetti -->
+	<!-- Date: 2024-04-17   -->
+		<div>
+	{{ include('commun/ZoneFlash.html.twig') }}
+	</div>
+		<div class='container row my-3'> <div class="col-7">
+			<h2>Modifier le produit
+				{{produit.id}}</h2>
+			<form method="POST">
+
+					<label for="nom">Nom</label>
+					<input type="text" class="form-control" id="nom" name="nom" value="{{produit.Nom}}">
+
+					<label for="description">Description</label>
+					<input type="text" class="form-control" id="description" name="description" value="{{produit.Description}}">
+
+
+					<label for="prix">Prix</label>
+					<input type="text" class="form-control" id="prix" name="prix" value="{{produit.Prix}}">
+
+
+					<label for="qtteStock">Quantité inventaire</label>
+					<input type="text" class="form-control" id="qtteStock" name="qtteStock" value="{{produit.getQtteStock()}}">
+
+					<label for="qtteSeuilMin">Quantité minimale</label>
+					<input type="text" class="form-control" id="qtteSeuilMin" name="qtteSeuilMin" value="{{produit.getQtteSeuilMin()}}">
+				<input type='submit' value='Modifier' class="btn btn-lg btn-primary"/>
+			</form>
+				<div class="col-4">
+					<a href="{{path('adminMenu')}}">
+						<button class="btn btn-warning">Retour au menu</button>
+					</a>
+				</div>
+
+
+			</div>
+		{% endblock %}
