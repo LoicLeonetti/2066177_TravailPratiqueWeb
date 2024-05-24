@@ -69,6 +69,9 @@ class ClientController extends AbstractController
         $client = $request->getSession()->get('client_candidat');
         $request->getSession()->remove('client_candidat');
 
+        //Hachage du mot de passe
+        $client->setMotDePasse(password_hash($client->getMotDePasse(), PASSWORD_DEFAULT));
+
         $em = $doctrine->getManager();
         $em->persist($client);
         $em->flush();
@@ -118,9 +121,9 @@ class ClientController extends AbstractController
             if ($form->isValid()) {
                 $em = $doctrine->getManager();
 
-                $client = $em->getRepository(Client::class)->findOneBy(['nom' => $connexion->getNom(), 'motDePasse' => $connexion->getMdp()]);
+                $client = $em->getRepository(Client::class)->findOneBy(['nom' => $connexion->getNom()]);
 
-                if ($client != null) {
+                if ($client != null || password_verify($connexion->getMdp(), $client->getMotDePasse())){
                     $request->getSession()->set('clientConnecte',$client);
                     $this->addFlash('succes', "Connexion réussie");
 
