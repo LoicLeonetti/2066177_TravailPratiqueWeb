@@ -24,30 +24,29 @@ class AdminController extends AbstractController
     #--------------------------------------------------------------------------------#
     #[Route('/', name: 'adminConnexion')]
     public function adminConnexion(ManagerRegistry $doctrine, Request $request): Response
-    {   
+    {
         $connexion = new ConnexionClient();
 
-        $formBuilder = $this->createFormBuilder($connexion) 
-        ->add('nom')
-        ->add('mdp')
-        ->add('valider', SubmitType::class);
+        $formBuilder = $this->createFormBuilder($connexion)
+            ->add('nom')
+            ->add('mdp')
+            ->add('valider', SubmitType::class);
 
         $form = $formBuilder->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
-            
+        if ($form->isSubmitted() && $form->isValid()) {
+
             if ($connexion->getNom() == 'admin' && $connexion->getMdp() == 'admin') {
                 $this->addFlash('succes', 'Vous êtes maintenant connecté en mode admin');
 
-                $request->getSession()->set('admin',true);
+                $request->getSession()->set('admin', true);
 
                 return $this->redirectToRoute('adminMenu');
             } else {
                 $this->addFlash('erreur', 'Nom ou mot de passe incorrect');
             }
-
         }
 
 
@@ -60,9 +59,8 @@ class AdminController extends AbstractController
     #--------------------------------------------------------------------------------#
     #[Route('/adminMenu', name: 'adminMenu')]
     public function adminMenu(ManagerRegistry $doctrine, Request $request): Response
-    {   
+    {
         $admin = $request->getSession()->get('admin');
-
 
         if ($admin == false || $admin == null) {
             $this->addFlash('erreur', 'Non au piratage!');
@@ -76,7 +74,7 @@ class AdminController extends AbstractController
     #--------------------------------------------------------------------------------#
     #[Route('/adminDeconnexion', name: 'adminDeconnexion')]
     public function adminDeconnexion(ManagerRegistry $doctrine, Request $request): Response
-    {   
+    {
         $admin = $request->getSession()->get('admin');
 
         if (!$admin) {
@@ -84,7 +82,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('catalogue');
         }
 
-        $request->getSession()->set('admin',false);
+        $request->getSession()->set('admin', false);
 
         return $this->redirectToRoute('adminConnexion');
     }
@@ -93,7 +91,7 @@ class AdminController extends AbstractController
     #--------------------------------------------------------------------------------#
     #[Route('/adminAjouterCategorie', name: 'adminAjouterCategorie')]
     public function adminAjouterCategorie(ManagerRegistry $doctrine, Request $request): Response
-    {   
+    {
         $em = $doctrine->getManager();
 
         $admin = $request->getSession()->get('admin');
@@ -109,24 +107,24 @@ class AdminController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $doctrine->getManager();
             $em->persist($categorie);
             $em->flush();
 
-            $this->addFlash('succes', 'Catégorie '. $categorie->getDescription() .  ' ajoutée avec succès');
+            $this->addFlash('succes', 'Catégorie ' . $categorie->getDescription() .  ' ajoutée avec succès');
             return $this->redirectToRoute('adminMenu');
         }
 
         $categories = $em->getRepository(Categorie::class)->findAll();
 
-        return $this->render('adminAjouterCategorie.html.twig',['form' => $form->createView(), 'categories' => $categories]);
+        return $this->render('adminAjouterCategorie.html.twig', ['form' => $form->createView(), 'categories' => $categories]);
     }
 
     #[Route('/adminAjouterProduit', name: 'adminAjouterProduit')]
     public function adminAjouterProduit(ManagerRegistry $doctrine, Request $request): Response
-    {   
+    {
         $em = $doctrine->getManager();
 
         $admin = $request->getSession()->get('admin');
@@ -142,25 +140,25 @@ class AdminController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $produit->setImage('ImageManquante');
 
             $em->persist($produit);
             $em->flush();
 
-            $this->addFlash('succes', 'Produit '. $produit->getNom() .  ' ajouté avec succès');
+            $this->addFlash('succes', 'Produit ' . $produit->getNom() .  ' ajouté avec succès');
             return $this->redirectToRoute('adminMenu');
         }
 
         $categories = $em->getRepository(Categorie::class)->findAll();
 
-        return $this->render('adminAjouterProduit.html.twig',['form' => $form->createView(), 'categories' => $categories]);
+        return $this->render('adminAjouterProduit.html.twig', ['form' => $form->createView(), 'categories' => $categories]);
     }
 
     #[Route('/adminRapportVentes', name: 'adminRapportVentes')]
     public function adminRapportVentes(ManagerRegistry $doctrine, Request $request): Response
-    {   
+    {
         $em = $doctrine->getManager();
 
         $admin = $request->getSession()->get('admin');
@@ -171,15 +169,15 @@ class AdminController extends AbstractController
         }
 
         $commandes = $em->getRepository(Commande::class)->findAll();
-        
+
         array_reverse($commandes);
 
-        return $this->render('adminRapportVente.html.twig',['commandes' => $commandes]);
+        return $this->render('adminRapportVente.html.twig', ['commandes' => $commandes]);
     }
 
     #[Route('/adminProduits', name: 'adminProduits')]
     public function adminProduits(ManagerRegistry $doctrine, Request $request): Response
-    {   
+    {
         $em = $doctrine->getManager();
 
         $admin = $request->getSession()->get('admin');
@@ -190,15 +188,15 @@ class AdminController extends AbstractController
         }
 
         $produits = $em->getRepository(Produit::class)->findAll();
-        
+
         array_reverse($produits);
 
-        return $this->render('adminProduits.html.twig',['produits' => $produits]);
+        return $this->render('adminProduits.html.twig', ['produits' => $produits]);
     }
 
     #[Route('/adminProduitsCommander', name: 'adminProduitsCommander')]
     public function adminProduitsCommander(ManagerRegistry $doctrine, Request $request): Response
-    {   
+    {
         $em = $doctrine->getManager();
 
         $admin = $request->getSession()->get('admin');
@@ -211,18 +209,45 @@ class AdminController extends AbstractController
         $produits = $em->getRepository(Produit::class)->findAll();
 
         $produitsACommander = [];
-        
+
         foreach ($produits as $p) {
             if ($p->getQtteStock() < $p->getQtteSeuilMin()) {
-               array_push($produitsACommander, $p);
+                array_push($produitsACommander, $p);
             }
         }
 
-        return $this->render('adminProduits.html.twig',['produits' => $produitsACommander]);
+        return $this->render('adminProduits.html.twig', ['produits' => $produitsACommander]);
     }
 
+    #[Route('/adminModifierCategorie', name: 'adminModifierCategorie')]
+    public function adminModifierCategorie(ManagerRegistry $doctrine, Request $request): Response
+    {
+        $em = $doctrine->getManager();
 
-    
-    
-    
+        $admin = $request->getSession()->get('admin');
+
+        if (!$admin) {
+            $this->addFlash('erreur', 'Non au piratage!');
+            return $this->redirectToRoute('catalogue');
+        }
+
+        $categories = $em->getRepository(Categorie::class)->findAll();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            foreach ($_POST as $key => $value) {
+
+                $categorie = $em->getRepository(Categorie::class)->find($key);
+
+                if ($categorie) {
+                    $categorie->setDescription($value);
+                    $em->persist($categorie);
+                }
+            }
+            $em->flush();
+            $this->addFlash('succes', 'Catégories modifiées avec succès');
+            $this->redirectToRoute('adminMenu');
+        }
+
+        return $this->render('adminModifierCategorie.html.twig', ['categories' => $categories]);
+    }
 }
