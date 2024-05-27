@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\CategorieType;
 use App\Form\ProduitType;
 use App\Entity\Commande;
+use App\Classe\PhotoProduit;
+use App\Form\PhotoProduitType;
 
 
 
@@ -26,6 +28,19 @@ class AdminController extends AbstractController
     public function adminConnexion(ManagerRegistry $doctrine, Request $request): Response
     {
         $connexion = new ConnexionClient();
+
+        $produits = $doctrine->getManager()->getRepository(Produit::class)->findAll();
+
+        foreach ($produits as $p) {
+            $p->setImage($p->getId());
+        }
+
+        $em = $doctrine->getManager();
+
+        $em->flush();
+
+
+
 
         $formBuilder = $this->createFormBuilder($connexion)
             ->add('nom')
@@ -121,7 +136,9 @@ class AdminController extends AbstractController
 
         return $this->render('adminAjouterCategorie.html.twig', ['form' => $form->createView(), 'categories' => $categories]);
     }
-
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
     #[Route('/adminAjouterProduit', name: 'adminAjouterProduit')]
     public function adminAjouterProduit(ManagerRegistry $doctrine, Request $request): Response
     {
@@ -155,7 +172,9 @@ class AdminController extends AbstractController
 
         return $this->render('adminAjouterProduit.html.twig', ['form' => $form->createView(), 'categories' => $categories]);
     }
-
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
     #[Route('/adminRapportVentes', name: 'adminRapportVentes')]
     public function adminRapportVentes(ManagerRegistry $doctrine, Request $request): Response
     {
@@ -174,7 +193,9 @@ class AdminController extends AbstractController
 
         return $this->render('adminRapportVente.html.twig', ['commandes' => $commandes]);
     }
-
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
     #[Route('/adminProduits', name: 'adminProduits')]
     public function adminProduits(ManagerRegistry $doctrine, Request $request): Response
     {
@@ -193,7 +214,9 @@ class AdminController extends AbstractController
 
         return $this->render('adminProduits.html.twig', ['produits' => $produits]);
     }
-
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
     #[Route('/adminProduitsCommander', name: 'adminProduitsCommander')]
     public function adminProduitsCommander(ManagerRegistry $doctrine, Request $request): Response
     {
@@ -218,7 +241,9 @@ class AdminController extends AbstractController
 
         return $this->render('adminProduits.html.twig', ['produits' => $produitsACommander]);
     }
-
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
     #[Route('/adminModifierCategorie', name: 'adminModifierCategorie')]
     public function adminModifierCategorie(ManagerRegistry $doctrine, Request $request): Response
     {
@@ -250,7 +275,9 @@ class AdminController extends AbstractController
 
         return $this->render('adminModifierCategorie.html.twig', ['categories' => $categories]);
     }
-
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
     #[Route('/adminModifierProduits', name: 'adminModifierProduits')]
     public function adminModifierProduits(ManagerRegistry $doctrine, Request $request): Response
     {
@@ -267,10 +294,11 @@ class AdminController extends AbstractController
 
         return $this->render('adminModifierProduits.html.twig', ['produits' => $produits]);
     }
-
-    
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#
+    #--------------------------------------------------------------------------------#    
     #[Route('/adminModifierProduit/{id}', name: 'adminModifierProduit')]
-    public function adminModifierProduit(ManagerRegistry $doctrine, Request $request,$id): Response
+    public function adminModifierProduit(ManagerRegistry $doctrine, Request $request, $id): Response
     {
         $em = $doctrine->getManager();
 
@@ -300,5 +328,97 @@ class AdminController extends AbstractController
 
 
         return $this->render('adminModifierProduit.html.twig', ['produit' => $produit]);
+    }
+
+    #[Route('/adminImageCouverture/{id}', name: 'adminImageCouverture')]
+    public function adminImageCouverture(ManagerRegistry $doctrine, Request $request, $id): Response
+    {
+        $em = $doctrine->getManager();
+
+        $admin = $request->getSession()->get('admin');
+
+        if (!$admin) {
+            $this->addFlash('erreur', 'Non au piratage!');
+            return $this->redirectToRoute('catalogue');
+        }
+
+
+        $produit = $em->getRepository(Produit::class)->find($id);
+
+        $imageFolder = '/../../public/images/produits';
+
+        $photoProduit = new PhotoProduit();
+        $photoProduit->setProduitId($produit->getId());
+
+        $form = $this->createForm(PhotoProduitType::class, $photoProduit);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $fichier = $photoProduit->getImageProduit();
+
+            $fichier->move(
+                __DIR__ . $imageFolder,
+                $produit->getId() . '.png'
+            );
+
+            $produit->setImage($produit->getId());
+
+            $em->flush();
+
+            $this->addFlash('succes', 'Image de couverture modifiée avec succès');
+            return $this->redirectToRoute('adminMenu');
+        }
+
+
+
+        return $this->render('adminImageCouverture.html.twig', ['produit' => $produit, 'form' => $form->createView()]);
+    }
+
+    #[Route('/adminImageDetails/{id}', name: 'adminImageDetails')]
+    public function adminImageDetails(ManagerRegistry $doctrine, Request $request, $id): Response
+    {
+        $em = $doctrine->getManager();
+
+        $admin = $request->getSession()->get('admin');
+
+        if (!$admin) {
+            $this->addFlash('erreur', 'Non au piratage!');
+            return $this->redirectToRoute('catalogue');
+        }
+
+
+        $produit = $em->getRepository(Produit::class)->find($id);
+
+        $imageFolder = '/../../public/images/modal';
+
+        $photoProduit = new PhotoProduit();
+        $photoProduit->setProduitId($produit->getId());
+
+        $formPhoto = $this->createForm(PhotoProduitType::class, $photoProduit);
+
+        $formPhoto->handleRequest($request);
+
+        if ($formPhoto->isSubmitted() && $formPhoto->isValid()) {
+
+            $fichier = $photoProduit->getImageProduit();
+
+            $fichier->move(
+                __DIR__ . $imageFolder,
+                $produit->getId() . '.png'
+            );
+
+            $produit->setImage($produit->getId());
+
+            $em->flush();
+
+            $this->addFlash('succes', 'Image de couverture modifiée avec succès');
+            return $this->redirectToRoute('adminMenu');
+        }
+
+
+
+        return $this->render('adminImageDetails.html.twig', ['produit' => $produit, 'form' => $formPhoto->createView()]);
     }
 }

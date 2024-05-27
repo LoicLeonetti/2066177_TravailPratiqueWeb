@@ -3,7 +3,7 @@
 {% block body %}
 
 	<!-- Nom: Loic Leonetti -->
-	<!-- Date: 2024-04-17   -->
+	<!-- Date: 2024-05-22   -->
 		<div>
 	{{ include('commun/ZoneFlash.html.twig') }}
 	</div>
@@ -12,30 +12,43 @@
 				{{produit.id}}</h2>
 			<form method="POST">
 
-					<label for="nom">Nom</label>
-					<input type="text" class="form-control" id="nom" name="nom" value="{{produit.Nom}}">
+				<label for="nom">Nom</label>
+				<input type="text" class="form-control" id="nom" name="nom" value="{{produit.Nom}}">
 
-					<label for="description">Description</label>
-					<input type="text" class="form-control" id="description" name="description" value="{{produit.Description}}">
-
-
-					<label for="prix">Prix</label>
-					<input type="text" class="form-control" id="prix" name="prix" value="{{produit.Prix}}">
+				<label for="description">Description</label>
+				<input type="text" class="form-control" id="description" name="description" value="{{produit.Description}}">
 
 
-					<label for="qtteStock">Quantité inventaire</label>
-					<input type="text" class="form-control" id="qtteStock" name="qtteStock" value="{{produit.getQtteStock()}}">
+				<label for="prix">Prix</label>
+				<input type="text" class="form-control" id="prix" name="prix" value="{{produit.Prix}}">
 
-					<label for="qtteSeuilMin">Quantité minimale</label>
-					<input type="text" class="form-control" id="qtteSeuilMin" name="qtteSeuilMin" value="{{produit.getQtteSeuilMin()}}">
+
+				<label for="qtteStock">Quantité inventaire</label>
+				<input type="text" class="form-control" id="qtteStock" name="qtteStock" value="{{produit.getQtteStock()}}">
+
+				<label for="qtteSeuilMin">Quantité minimale</label>
+				<input type="text" class="form-control" id="qtteSeuilMin" name="qtteSeuilMin" value="{{produit.getQtteSeuilMin()}}">
 				<input type='submit' value='Modifier' class="btn btn-lg btn-primary"/>
 			</form>
-				<div class="col-4">
-					<a href="{{path('adminMenu')}}">
-						<button class="btn btn-warning">Retour au menu</button>
-					</a>
-				</div>
+
+		</div>
+
+		<div class="col-5">
+			<a href="{{path('adminImageCouverture', {'id': produit.id})}}">
+				<button class="btn btn-primary">Modifier l'image de la couverture</button>
+			</a>
+			<a href="{{path('adminImageDetails', {'id': produit.id})}}">
+				<button class="btn btn-primary" >Modifier l'image de l'auteur</button>
+			</a>
+		</div>
+
+		<div class="col-4">
+			<hr>
+			<a href="{{path('adminMenu')}}">
+				<button class="btn btn-warning">Retour au menu</button>
+			</a>
+		</div>
 
 
-			</div>
-		{% endblock %}
+	</div>
+{% endblock %}
