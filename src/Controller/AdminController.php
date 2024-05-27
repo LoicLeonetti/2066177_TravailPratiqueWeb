@@ -16,6 +16,7 @@ use App\Form\ProduitType;
 use App\Entity\Commande;
 use App\Classe\PhotoProduit;
 use App\Form\PhotoProduitType;
+use App\Entity\Client;
 
 
 
@@ -29,16 +30,11 @@ class AdminController extends AbstractController
     {
         $connexion = new ConnexionClient();
 
-        $produits = $doctrine->getManager()->getRepository(Produit::class)->findAll();
-
-        foreach ($produits as $p) {
-            $p->setImage($p->getId());
-        }
-
         $em = $doctrine->getManager();
 
-        $em->flush();
+        $admin = $em->getRepository(Client::class)->findOneBy(['nom' => 'admin']);
 
+    
 
 
 
@@ -53,7 +49,7 @@ class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($connexion->getNom() == 'admin' && $connexion->getMdp() == 'admin') {
+            if ($connexion->getNom() == $admin->getNom() && $connexion->getMdp() == $admin->getMotDePasse()) {
                 $this->addFlash('succes', 'Vous êtes maintenant connecté en mode admin');
 
                 $request->getSession()->set('admin', true);
